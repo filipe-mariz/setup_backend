@@ -1,7 +1,11 @@
+import 'reflect-metadata';
 import express from 'express';
 import cors from 'cors';
 import routes from './routes/Routes';
+import 'dotenv/config';
+import 'express-async-errors'
 import './database/connection';
+import erroHandler from './error/handler';
 
 class App {
   public express: express.Application
@@ -10,6 +14,7 @@ class App {
     this.express = express()
     this.middlewares();
     this.routes();
+    this.error();
     
   }
 
@@ -20,6 +25,10 @@ class App {
 
   private routes (): void {
     this.express.use(routes)
+  }
+
+  private error (): void {
+    this.express.use(erroHandler);
   }
 }
 
